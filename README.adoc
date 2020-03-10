@@ -5,7 +5,7 @@ NOTE: TP de deux slots de 1h20
 ## Nom des étudiants de ce binôme 
 WARNING: NE PAS OUBLIER DE MENTIONNER LES DEUX NOMS !
 
-#XXX# et #YYY#
+#TASSI# et #RENARD#
 
 Commentaires éventuels des étudiants : #XXXXXX#
 
@@ -47,6 +47,9 @@ _Temps estimé : 1 h_
 * Observer le code du projet `todolist-debut-ex1`
 
 IMPORTANT: [Question]  Que constatez-vous  en terme de découpage du code ? Imaginez un projet d'entreprise constitué de centaines de classes ainsi structuré. Que risque-t-il d'arriver ?
+
+En terme de découpage de code, on constate que 
+
 
 IMPORTANT: [Question]  Que se passe-t-il si l'on renomme une colonne de la base de donnée ?
 
