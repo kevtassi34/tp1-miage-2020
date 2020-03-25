@@ -48,12 +48,17 @@ _Temps estimé : 1 h_
 
 IMPORTANT: [Question]  Que constatez-vous  en terme de découpage du code ? Imaginez un projet d'entreprise constitué de centaines de classes ainsi structuré. Que risque-t-il d'arriver ?
 
-En terme de découpage de code, on constate que 
+Le code est constitué de 4 fichiers contenant chacun une seule classe ou interface et toutes les classes sont dans le même répertoire. Dans le cas d’un projet d’entreprise constitué de centaines de classes ainsi structurée, tout serait dans le même dossier ce qui serait beaucoup trop chargé et donc compliqué à maintenir et développer tout simplement. 
 
 
 IMPORTANT: [Question]  Que se passe-t-il si l'on renomme une colonne de la base de donnée ?
 
+Si on renomme une colonne de la base de données, il y aura un problème de mapping entre les éléments de l’application et ceux de la base de données.
+
 IMPORTANT: [Question]  Où se trouve le code métier (voir la règle de gestion RG1) ? cette règle est-elle facilement testable par un test unitaire ? 
+
+Le code métier se trouve dans le controlleur dans le fichier TodoListController.java. La règle est “si l'item a plus de 24h, ajouter dans le contenu une note "[LATE!]”. Cette règle n’est pas facilement testable car le code utilise différentes classes etc. donc ce sera compliqué à mettre en place. Il faudra mettre en place un mock afin d’assurer la persistance des données.
+
 
 * Lancer une base PostgreSQL en Docker :
 ```bash
@@ -61,11 +66,29 @@ docker run --rm -it -e POSTGRES_PASSWORD=password -p 5432:5432 postgres
 ```
 IMPORTANT: [Question]  Expliquer cette ligne de commande (y compris les options utilisées)
 
+La commande ci-dessus permet de lancer un conteneur contenant une base de données, sur le port 5443. 
+
+On a précisément :" docker run " qui lance le conteneur et " --rm " qui permet de le supprimer directement à la fin de l’exécution, l’option " -it " permet d’écrire et de recevoir les logs de la base directement sur le terminal," -e POSTGRES_PASSWORD=password " permet d’établir la variable d’environnement POSTGRES_PASSWORD dans le conteneur pour se connecter à la base, " -p " associe le port du conteneur à celui de l’hôte et enfin " postgres " est le nom de l’image du conteneur.
+
 IMPORTANT: [Question]  Lancer les commandes `docker ps` et `ps -eaf | grep postgres`, à quoi correspondent les lignes affichées ? Que remarquez vous ?
+ 
+     Avec la commande " docker ps "on peut voir le statut du conteneur docker, elle affiche les instances de docker qui tournent actuellement sur notre environnement. 
+  Avec la commande `ps -eaf | grep postgres` on affiche la liste des processus en cours d’exécution avec leur valeur et également la durée depuis laquelle ells sont démarrées. 
 
 * Compléter le code manquant dans la méthode `TodoListController.createTodoItem()`
 
+	@PostMapping("/todos")
+	@ResponseStatus(code = HttpStatus.CREATED)
+	public void createTodoItem(@RequestBody TodoItem todoItem) {
+		// Code à compléter
+		// ...
+		this.todoItemRepository.save(todoItem);
+	}
+
 * Pourquoi `todoItemRepository` est-il `null` ? Quelle est la meilleure façon de l'injecter ? Modifier le code en conséquence.
+
+ToDoItemRepository  est null car il n’est pas injecté, le mieux va donc être de l’injecter par le constructeur en y ajoutant simplement “@Inject”.
+
 
 * Tester vos endpoints avec un client REST.
 
@@ -103,9 +126,22 @@ Source : http://leanpub.com/get-your-hands-dirty-on-clean-architecture[Tom Hombe
 
 IMPORTANT: [Question] En observant le code, donnez les grands principes de cette architecture et les illustrer par des exemples de code.
 
+On voit que les grands principes de l'architecture hexagonale sont de séparer explicitement l’application du domaine et de l’infrastructure et d’utiliser des ports in et out dans l’application servant à appeler des fonctions dans l’hexagone et également à appeler des éléments extérieurs. La couche domaine contient les entités existantes dans le domaine, c’est dans la couche application que l’Infrastructure va communiquer avec le domaine et la couche infrastructure va pouvoir communiquer et invoquer les objets du domaine.
+
+ Dans notre code on trouve bien les couches application et domaine, on a également les adapters et la configuration, on retrouve les ports in et out dans l’application qui servent de canaux. On retrouve donc les principes de séparation en couches dans notre code.
+
+
 IMPORTANT: [Question] Avec quel pattern est implémenté ici le principe d'inversion de dépendance ? (par exemple le domaine n'a aucune dépendance directe vers l'adaptateur JPA de persistance mais pourtant, il cette dernière est appelé _in fine_). Précisez les lignes de code importantes.
 
+L’inversion de dépendances est ici implémentée avec le principe IoC (Inversion of control).
+
+
 IMPORTANT: [Question] Qu'est ce que l'anti-pattern domaine anémique ? à quoi le reconnaît-on ? Est-il courant dans les modèles en couche classiques ? L'architecture hexagonale change-t-elle cette situation ?
+
+
+L’anti-pattern domaine anémique est l'utilisation d'un modèle de domaine logiciel où les objets de domaine contiennent peu ou pas de logique métier. Ce pattern a été créé par Martin Fowler qui l’a donc défini comme un anti-pattern. On peut le reconnaître au fait qu’on ne retrouve pas de logique/règles métiers dans les classes
+Cet anti-pattern n’est pas courant dans les modèles en couche classique où on retrouve justement des règles métiers. Au niveau de l’architecture hexagonale, elle change bien cette situation car dans cette architecture on a des logiques métiers ce qui fait qu’on ne retrouve pas l’anti-pattern domaine anémique.
+
 
 Complétez ce code avec une fonctionnalité de création de `TodoItem`  persisté en base et appelé depuis un endpoint REST `POST /todos` qui renvoi un code `201` en cas de succès. La fonctionnalité à implémenter est contractualisée par le port d'entrée `AddTodoItem`.
 
