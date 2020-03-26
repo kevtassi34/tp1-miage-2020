@@ -112,7 +112,7 @@ En utilisant la requête localhost:8080/todos avec la méthode POST -->
 ```json
 {
     "id": "2",
-    "content": "test_endpoint"
+    "content": "test_endpoint",
     "time": 1547111200,
   }
 ```
