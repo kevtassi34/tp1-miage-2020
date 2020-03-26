@@ -20,7 +20,7 @@ public class TodoItemPersistenceAdapter implements LoadTodoItem {
 	private TodoItemRepository todoItemRepository;
 
 	private TodoItemMapper mapper;
-
+ 
 	@Inject
 	public TodoItemPersistenceAdapter(TodoItemRepository todoItemRepository, TodoItemMapper mapper) {
 		super();
