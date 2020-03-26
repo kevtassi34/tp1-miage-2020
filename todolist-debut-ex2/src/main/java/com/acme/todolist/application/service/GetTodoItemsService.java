@@ -23,6 +23,7 @@ public class GetTodoItemsService implements GetTodoItems {
 		
 	}
 
+	
 	@Override
 	public List<TodoItem> getAllTodoItems() {
 		return this.loadTodoItem.loadAllTodoItems().stream()
