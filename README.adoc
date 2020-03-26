@@ -107,6 +107,26 @@ ToDoItemRepository  est null car il n’est pas injecté, le mieux va donc être
 ```
 ====
 
+En utilisant la requête localhost:8080/todos avec la méthode POST -->
+
+```json
+{
+    "id": "1",
+    "content": "test_endpoint"
+    "time": "1547111200",
+  }
+```
+
+En utilisant la requête localhost:8080/todos avec la méthode GET -->
+
+```json
+{
+    "id": "100",
+    "time": "2019-01-12T10:31:43Z",
+    "content": "[LATE!]test_endpoint"
+  }
+```
+
 * Quand les deux endpoints fonctionnent, faire un push vers Github et fermer le projet Eclipse (ne pas le supprimer).
 
 # Exercice 2 - Refactoring en architecture hexagonale
