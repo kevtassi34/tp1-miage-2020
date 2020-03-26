@@ -2,6 +2,7 @@ package com.acme.todolist;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.time.Instant;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import org.junit.jupiter.api.Test;
@@ -14,14 +15,14 @@ public class TodolistTestsU {
 	@Test
 	public void testTodoIsLate_finalContent() {
 	Instant past = Instant.now().minus(Duration.ofDays(2));
-		TodoItem todo = new TodoItem("5", past, "exemple exo 3 - tu1");    //TODO
-		assertTrue(todo.finalContent().contains(LATE));
+		TodoItem item = new TodoItem("5", past, "exemple exo 3 - tu1");    //TODO
+		assertTrue(item.finalContent().contains(LATE));
 	}
 
 	@Test
 	public void testTodoIsNotLate_finalContent() {
 	Instant past = Instant.now().minus(Duration.ofDays(2));
-		TodoItem todo = new TodoItem("10", past, "exemple exo 3 - tu2");    //TODO
-		assertTrue(todo.finalContent().contains(LATE));
+		TodoItem item = new TodoItem("10", past, "exemple exo 3 - tu2");    //TODO
+		assertTrue(item.finalContent().contains(LATE));
 	}
 }
