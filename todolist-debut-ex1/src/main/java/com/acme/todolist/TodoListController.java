@@ -40,7 +40,7 @@ public class TodoListController {
 	public void createTodoItem(@RequestBody TodoItem todoItem) {
 		// Code à compléter
 		// ...
-		todoItemRepository.save(todoItem);
+		this.todoItemRepository.save(todoItem);
 	}
 
 	/**
